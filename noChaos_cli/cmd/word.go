@@ -1,13 +1,18 @@
 /**
 放置单词格式转换的子命令word
+
+测试方法：
+	打包后，使用指令
+	输入：./noChaos_cli word -s=wangsuchao -m=1
+	输出：2020/08/19 21:30:26 输出结果:WANGSUCHAO
 */
 package cmd
 
 import (
+	"github.com/noChaos1012/tour/noChaos_cli/internal/word"
 	"github.com/spf13/cobra"
 	"log"
 	"strings"
-	"unicode"
 )
 
 const (
@@ -39,15 +44,15 @@ var wordCmd = &cobra.Command{
 
 		switch mode {
 		case MODE_UPPER:
-			content = ToUpper(str)
+			content = word.ToUpper(str)
 		case MODE_LOWER:
-			content = ToLower(str)
+			content = word.ToLower(str)
 		case MODE_UNDERSCORE_TO_UPPERCAMELCASE:
-			content = UnderscoreToUpperCamelCase(str)
+			content = word.UnderscoreToUpperCamelCase(str)
 		case MODE_UNDERSCORE_TO_LOWERCAMELCASE:
-			content = UnderscoreToLowerCamelCase(str)
+			content = word.UnderscoreToLowerCamelCase(str)
 		case MODE_CAMELCASE_TO_UNDERSCORE:
-			content = CamelCaseToUnderscore(str)
+			content = word.CamelCaseToUnderscore(str)
 
 		default:
 			log.Fatalf("站不支持该转换模式，请执行help word 查看帮助文档")
@@ -60,43 +65,4 @@ var wordCmd = &cobra.Command{
 func init() {
 	wordCmd.Flags().StringVarP(&str, "str", "s", "", "请输入单词内容")
 	wordCmd.Flags().Int8VarP(&mode, "mode", "m", 0, "请输入单词转换的模式")
-}
-
-//单词全部转换为大写
-func ToUpper(s string) string {
-	return strings.ToUpper(s)
-}
-
-//单词全部转换为小写
-func ToLower(s string) string {
-	return strings.ToLower(s)
-}
-
-//下划线单词转换为大写驼峰单词
-func UnderscoreToUpperCamelCase(s string) string {
-	s = strings.Replace(s, "_", " ", -1)
-	s = strings.Title(s)
-	return strings.Replace(s, " ", "", -1)
-}
-
-//下划线单词转换为小写(首字母)驼峰单词
-func UnderscoreToLowerCamelCase(s string) string {
-	s = UnderscoreToUpperCamelCase(s)
-	return string(unicode.ToLower(rune(s[0]))) + s[1:]
-}
-
-//驼峰单词转下划线单词 使用govalidator库的转换方法
-func CamelCaseToUnderscore(s string) string {
-	var output []rune
-	for i, r := range s {
-		if i == 0 {
-			output = append(output, unicode.ToLower(r))
-			continue
-		}
-		if unicode.IsUpper(r) {
-			output = append(output, '_')
-		}
-		output = append(output, unicode.ToLower(r))
-	}
-	return string(output)
 }
