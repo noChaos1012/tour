@@ -1,3 +1,7 @@
+/**
+根据数据库表结构生成对应struct
+测试：./noChaos_cli sql struct --username=root --password=wyw940524 --db=video_server --table=comments
+ */
 package cmd
 
 import (
