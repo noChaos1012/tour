@@ -1,5 +1,12 @@
 package model
 
+import "github.com/noChaos1012/tour/blog_service/pkg/app"
+
+type ArticleSwagger struct {
+	List []*Article
+	Pager *app.Pager
+}
+
 type Article struct {
 	*Model
 	Title         string `json:"title"`
