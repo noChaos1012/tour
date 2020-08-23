@@ -84,6 +84,7 @@ func setupLogger() error {
 //@termsOfService https://github.com/noChaos1012/tour
 func main() {
 	global.Logger.Infof("【服务启动】%s:tour/%s", "noChaos", "blog-service")
+
 	router := routers.NewRouter()
 	s := &http.Server{
 		Addr:           ":" + global.ServerSetting.HttpPort,

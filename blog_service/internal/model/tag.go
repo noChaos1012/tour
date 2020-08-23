@@ -13,7 +13,7 @@ type TagSwagger struct {
 type Tag struct {
 	*Model
 	Name  string `json:"name"`
-	State uint8 `json:"state"`
+	State uint8  `json:"state"`
 }
 
 func (t Tag) TableName() string {
@@ -54,7 +54,11 @@ func (t Tag) Create(db *gorm.DB) error {
 }
 
 func (t Tag) Update(db *gorm.DB, values interface{}) error {
-	return db.Model(&t).Where("id = ? AND is_del = ?", t.ID, 0).Update(values).Error
+	//return db.Model(&t).Where("id = ? AND is_del = ?", t.ID, 0).Update(values).Error
+	if err := db.Model(t).Updates(values).Where("id = ? AND is_del = ?", t.ID, 0).Error; err != nil {
+		return err
+	}
+	return nil
 }
 
 func (t Tag) Delete(db *gorm.DB) error {

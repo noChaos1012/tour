@@ -142,6 +142,8 @@ func (l *Logger) Output(message string) {
 		l.newLogger.Print(content)
 	case LevelWarn:
 		l.newLogger.Print(content)
+	case LevelError:
+		l.newLogger.Print(content)
 	case LevelFatal:
 		l.newLogger.Fatal(content)
 	case LevelPanic:

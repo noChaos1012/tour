@@ -32,8 +32,9 @@ func (t Tag) List(c *gin.Context) {
 	response := app.NewResponse(c)
 	//入参校验与绑定
 	valid, errs := app.BindAndValid(c, &param)
+
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
+		global.Logger.Errorf("app.BindAndValid1 errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}
@@ -69,26 +70,26 @@ func (t Tag) List(c *gin.Context) {
 //@Failure 400 {object} errcode.Error "请求错误"
 //@Failure 500 {object} errcode.Error "内部错误"
 //@Router /api/v1/tags [post]
-func (t Tag) Create(c *gin.Context) {
+func (t Tag) Create(c *gin.Context) { //curl -X POST http://127.0.0.1:8000/api/v1/tags -F 'name=Go' -F created_by=waschild 表单形式提交
+
 	param := service.CreateTagRequest{}
 	response := app.NewResponse(c)
-
 	vaild, errs := app.BindAndValid(c, &param)
+
 	if !vaild {
 		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}
-
 	svc := service.New(c.Request.Context())
 	err := svc.CreateTag(&param)
 	if err != nil {
 		global.Logger.Errorf("svc.CreateTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorCreateTagFail)
+		return
 	}
 	response.ToResponse(gin.H{})
 	return
-
 }
 
 //@Summary 修改标签
@@ -101,13 +102,15 @@ func (t Tag) Create(c *gin.Context) {
 //@Failure 400 {object} errcode.Error "请求错误"
 //@Failure 500 {object} errcode.Error "内部错误"
 //@Router /api/v1/tags/{id} [put]
-func (t Tag) Update(c *gin.Context) {
+func (t Tag) Update(c *gin.Context) { //curl -X PUT http://127.0.0.1:8000/api/v1/tags/6 -F modified_by=waschil -F state=1
 	param := service.UpdateTagRequest{ID: convert.StrTo(c.Param("id")).MustUInt32(),}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
+
 	if !valid {
 		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
+		return
 	}
 
 	svc := service.New(c.Request.Context())
@@ -115,6 +118,7 @@ func (t Tag) Update(c *gin.Context) {
 	if err != nil {
 		global.Logger.Errorf("svc.UpdateTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorUpdateTagFail)
+		return
 	}
 
 	response.ToResponse(gin.H{})
@@ -128,22 +132,22 @@ func (t Tag) Update(c *gin.Context) {
 //@Failure 400 {object} errcode.Error "请求错误"
 //@Failure 500 {object} errcode.Error "内部错误"
 //@Router /api/v1/tags/{id} [delete]
-func (t Tag) Delete(c *gin.Context) {
+func (t Tag) Delete(c *gin.Context) { //curl -X DELETE http://127.0.0.1:8000/api/v1/tags/6
 	param := service.DeleteTagRequest{ID: convert.StrTo(c.Param("id")).MustUInt32()}
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
 		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
+		return
 	}
-
 	svc := service.New(c.Request.Context())
 	err := svc.DeleteTag(&param)
 	if err != nil {
 		global.Logger.Errorf("svc.DeleteTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorDeleteTagFail)
+		return
 	}
-
 	response.ToResponse(gin.H{})
 	return
 }
