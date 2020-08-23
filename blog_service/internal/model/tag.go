@@ -13,7 +13,7 @@ type TagSwagger struct {
 type Tag struct {
 	*Model
 	Name  string `json:"name"`
-	State string `json:"state"`
+	State uint8 `json:"state"`
 }
 
 func (t Tag) TableName() string {
