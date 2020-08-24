@@ -34,7 +34,7 @@ func (t Tag) List(c *gin.Context) {
 	valid, errs := app.BindAndValid(c, &param)
 
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid1 errs:%v", errs)
+		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}

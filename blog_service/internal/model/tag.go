@@ -33,6 +33,16 @@ func (t Tag) Count(db *gorm.DB) (int, error) {
 	return count, nil
 }
 
+func (t Tag) Get(db *gorm.DB) (*Tag, error) {
+
+	tag := Tag{}
+	err := db.Where("id = ? AND state = ?", t.ID, t.State).First(&tag).Error
+	if err != nil {
+		return nil, err
+	}
+	return &tag, nil
+}
+
 func (t Tag) List(db *gorm.DB, pageOffset, pageSize int) ([]*Tag, error) {
 	var tags []*Tag
 	var err error

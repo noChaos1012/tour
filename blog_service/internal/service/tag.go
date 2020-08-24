@@ -30,6 +30,7 @@ type UpdateTagRequest struct {
 	State      uint8  `form:"state" binding:"oneof=0 1"`
 	ModifiedBy string `form:"modified_by" binding:"required,min=3,max=100"`
 }
+
 type DeleteTagRequest struct {
 	ID uint32 `form:"id" binding:"required,gte=1"`
 }
