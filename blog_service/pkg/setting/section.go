@@ -18,6 +18,11 @@ type AppSettingS struct {
 	LogSavePath     string
 	LogFileName     string
 	LogFileExt      string
+	//上传配置
+	UploadSavePath string
+	UploadServerUrl string
+	UploadImageMaxSize int
+	UploadImageAllowExts []string
 }
 
 type DatabaseSettingS struct {
