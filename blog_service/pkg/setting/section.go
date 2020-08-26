@@ -19,9 +19,9 @@ type AppSettingS struct {
 	LogFileName     string
 	LogFileExt      string
 	//上传配置
-	UploadSavePath string
-	UploadServerUrl string
-	UploadImageMaxSize int
+	UploadSavePath       string
+	UploadServerUrl      string
+	UploadImageMaxSize   int
 	UploadImageAllowExts []string
 }
 
@@ -36,6 +36,12 @@ type DatabaseSettingS struct {
 	ParseTime    bool
 	MaxIdleConns int
 	MaxOpenConns int
+}
+
+type JWTSettingS struct {
+	Secret string
+	Issuer string
+	Expire time.Duration
 }
 
 func (s *Setting) ReadSection(k string, v interface{}) error {

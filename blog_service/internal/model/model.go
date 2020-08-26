@@ -37,6 +37,7 @@ func NewDBEngine(dbSetting *setting.DatabaseSettingS) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+	//debug模式就打开日志
 	if global.ServerSetting.RunMode == "debug" {
 		db.LogMode(true)
 	}

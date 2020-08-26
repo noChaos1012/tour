@@ -28,3 +28,7 @@ Database:
   ParseTime: True
   MaxIdleConns: 10
   MaxOpenConns: 30
+JWT:
+  Secret: waschild  #密钥
+  Issuer: blog-service  #签发者
+  Expire: 7200  #有效时间

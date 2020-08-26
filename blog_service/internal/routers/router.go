@@ -25,7 +25,10 @@ func NewRouter() *gin.Engine {
 	article := v1.Article{}
 	tag := v1.Tag{}
 
+	r.GET("/auth", api.GetAuth)
+
 	r.POST("/upload/file", api.UploadFile)
+
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath)) //配置文件存储位置地址
 
 	apiv1 := r.Group("/api/v1")

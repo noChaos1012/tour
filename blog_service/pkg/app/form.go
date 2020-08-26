@@ -48,32 +48,8 @@ func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
 				Message: value,
 			})
 		}
-
 		return false, errs
 	}
 
 	return true, nil
 }
-/*
-func BindAndValid(c *gin.Context, v interface{}) (bool, ValidErrors) {
-	var errs ValidErrors
-	err := c.ShouldBind(v)	//绑定、校验入参
-	if err != nil {
-		v := c.Value("trans")
-		trans, _ := v.(ut.Translator)
-		verrs, ok := err.(val.ValidationErrors)
-		if !ok {
-			return false, errs
-		}
-		for key, value := range verrs.Translate(trans) {
-			errs = append(errs, &ValidError{
-				Key:     key,
-				Message: value,
-			})
-		}
-		return false, errs
-	}
-	return true, nil
-
-}
-*/
