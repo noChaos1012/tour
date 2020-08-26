@@ -5,7 +5,7 @@ import (
 	"github.com/noChaos1012/tour/blog_service/internal/model"
 	"github.com/noChaos1012/tour/blog_service/internal/routers"
 	"github.com/noChaos1012/tour/blog_service/pkg/logger"
-	"github.com/noChaos1012/tour/blog_service/pkg/setting"
+	st "github.com/noChaos1012/tour/blog_service/pkg/setting"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"net/http"
@@ -31,7 +31,7 @@ func init() {
 
 //获取配置内容->全局变量初始化
 func setupSetting() error {
-	setting, err := setting.NewSetting()
+	setting, err := st.NewSetting()
 	if err != nil {
 		return err
 	}
@@ -50,6 +50,12 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+
+	err = setting.ReadSection("JWT", &global.JWTSetting)
+	if err != nil {
+		return err
+	}
+	global.JWTSetting.Expire *= time.Second
 
 	global.ServerSetting.ReadTimeOut *= time.Second
 	global.ServerSetting.WriteTimeOut *= time.Second
@@ -76,7 +82,6 @@ func setupLogger() error {
 	}, "", log.LstdFlags).WithCaller(2)
 	return nil
 }
-
 
 //@title 博客系统
 //@version 1.0

@@ -32,6 +32,7 @@ func NewRouter() *gin.Engine {
 	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath)) //配置文件存储位置地址
 
 	apiv1 := r.Group("/api/v1")
+	apiv1.Use(middleware.JWT())
 	{
 		apiv1.POST("/tags", tag.Create)
 		apiv1.DELETE("/tags/:id", tag.Delete)
