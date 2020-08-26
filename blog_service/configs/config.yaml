@@ -32,3 +32,12 @@ JWT:
   Secret: waschild  #密钥
   Issuer: blog-service  #签发者
   Expire: 7200  #有效时间
+Email:
+  Host: smtp.163.com
+  Port: 465
+  UserName: waschild@163.com
+  Password: XJZDDLHZYACGJVWM
+  IsSSL: true
+  From: waschild@163.com
+  To:
+    - 497157441@qq.com

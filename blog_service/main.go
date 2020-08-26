@@ -51,6 +51,11 @@ func setupSetting() error {
 		return err
 	}
 
+	err = setting.ReadSection("Email", &global.EmailSetting)
+	if err != nil {
+		return err
+	}
+
 	err = setting.ReadSection("JWT", &global.JWTSetting)
 	if err != nil {
 		return err
