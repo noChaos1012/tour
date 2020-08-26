@@ -4,10 +4,10 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/noChaos1012/tour/blog_service/pkg/app"
 	"github.com/noChaos1012/tour/blog_service/pkg/errcode"
-	"github.com/noChaos1012/tour/blog_service/pkg/limter"
+	"github.com/noChaos1012/tour/blog_service/pkg/limiter"
 )
 
-func RateLimiter(l limter.LimiterIface) gin.HandlerFunc {
+func RateLimiter(l limiter.LimiterIface) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		key := l.Key(c)
 		if bucket, ok := l.GetBucket(key); ok {

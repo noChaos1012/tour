@@ -45,6 +45,7 @@ func setupSetting() error {
 	if err != nil {
 		return err
 	}
+	global.AppSetting.RequestTimeOut *= time.Second
 
 	err = setting.ReadSection("Database", &global.DatabaseSetting)
 	if err != nil {

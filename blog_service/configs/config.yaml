@@ -9,6 +9,8 @@ App:
   LogSavePath: storage/logs
   LogFileName: app
   LogFileExt: .log
+  #超时时间
+  RequestTimeOut: 60
   #上传配置
   UploadSavePath: storage/uploads
   UploadServerUrl: http://127.0.0.1:8000/static

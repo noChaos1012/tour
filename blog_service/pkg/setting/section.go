@@ -18,6 +18,7 @@ type AppSettingS struct {
 	LogSavePath     string
 	LogFileName     string
 	LogFileExt      string
+	RequestTimeOut time.Duration
 	//上传配置
 	UploadSavePath       string
 	UploadServerUrl      string

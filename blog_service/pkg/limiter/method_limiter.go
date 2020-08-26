@@ -1,4 +1,4 @@
-package limter
+package limiter
 
 import (
 	"github.com/gin-gonic/gin"

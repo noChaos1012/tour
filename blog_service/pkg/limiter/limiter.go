@@ -1,7 +1,7 @@
 /**
 限流控制
 */
-package limter
+package limiter
 
 import (
 	"github.com/gin-gonic/gin"
