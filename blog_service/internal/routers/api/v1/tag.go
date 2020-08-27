@@ -34,7 +34,7 @@ func (t Tag) List(c *gin.Context) {
 	valid, errs := app.BindAndValid(c, &param)
 
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}
@@ -44,14 +44,14 @@ func (t Tag) List(c *gin.Context) {
 	//获取标签总数
 	totalRows, err := svc.CountTag(&service.CountTagRequest{Name: param.Name, State: param.State})
 	if err != nil {
-		global.Logger.Errorf("svc.CountTag err:%v", err)
+		global.Logger.Errorf(c, "svc.CountTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorCountTagFail)
 		return
 	}
 	//获取标签雷彪
 	tags, err := svc.GetTagList(&param, &pager)
 	if err != nil {
-		global.Logger.Errorf("svc.GetTagList err:%v", err)
+		global.Logger.Errorf(c, "svc.GetTagList err:%v", err)
 		response.ToErrorResponse(errcode.ErrorGetTagListFail)
 		return
 	}
@@ -77,14 +77,14 @@ func (t Tag) Create(c *gin.Context) { //curl -X POST http://127.0.0.1:8000/api/v
 	vaild, errs := app.BindAndValid(c, &param)
 
 	if !vaild {
-		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}
 	svc := service.New(c.Request.Context())
 	err := svc.CreateTag(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.CreateTag err:%v", err)
+		global.Logger.Errorf(c, "svc.CreateTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorCreateTagFail)
 		return
 	}
@@ -108,7 +108,7 @@ func (t Tag) Update(c *gin.Context) { //curl -X PUT http://127.0.0.1:8000/api/v1
 	valid, errs := app.BindAndValid(c, &param)
 
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}
@@ -116,7 +116,7 @@ func (t Tag) Update(c *gin.Context) { //curl -X PUT http://127.0.0.1:8000/api/v1
 	svc := service.New(c.Request.Context())
 	err := svc.UpdateTag(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.UpdateTag err:%v", err)
+		global.Logger.Errorf(c, "svc.UpdateTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorUpdateTagFail)
 		return
 	}
@@ -137,14 +137,14 @@ func (t Tag) Delete(c *gin.Context) { //curl -X DELETE http://127.0.0.1:8000/api
 	response := app.NewResponse(c)
 	valid, errs := app.BindAndValid(c, &param)
 	if !valid {
-		global.Logger.Errorf("app.BindAndValid errs:%v", errs)
+		global.Logger.Errorf(c, "app.BindAndValid errs:%v", errs)
 		response.ToErrorResponse(errcode.InvalidParams.WithDetails(errs.Errors()))
 		return
 	}
 	svc := service.New(c.Request.Context())
 	err := svc.DeleteTag(&param)
 	if err != nil {
-		global.Logger.Errorf("svc.DeleteTag err:%v", err)
+		global.Logger.Errorf(c, "svc.DeleteTag err:%v", err)
 		response.ToErrorResponse(errcode.ErrorDeleteTagFail)
 		return
 	}

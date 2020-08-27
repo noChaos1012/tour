@@ -23,13 +23,13 @@ func Recovery() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		defer func() {
 			if err := recover(); err != nil {
-				global.Logger.WithCallersFrames().Errorf("panic recover err:%v", err)
+				global.Logger.WithCallersFrames().Errorf(c, "panic recover err:%v", err)
 
 				emailErr := defaultMailer.SendMail(global.EmailSetting.To,
 					fmt.Sprintf("异常抛出，发生时间:%d", time.Now().Unix()),
 					fmt.Sprintf("异常信息:%v", err))
-				if emailErr !=  nil{
-					global.Logger.Panicf("mail.SendMail err:%v",err)
+				if emailErr != nil {
+					global.Logger.Panicf(c, "mail.SendMail err:%v", err)
 				}
 				app.NewResponse(c).ToErrorResponse(errcode.ServerError)
 				c.Abort()

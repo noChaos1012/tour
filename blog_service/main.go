@@ -6,6 +6,7 @@ import (
 	"github.com/noChaos1012/tour/blog_service/internal/routers"
 	"github.com/noChaos1012/tour/blog_service/pkg/logger"
 	st "github.com/noChaos1012/tour/blog_service/pkg/setting"
+	"github.com/noChaos1012/tour/blog_service/pkg/tracer"
 	"gopkg.in/natefinch/lumberjack.v2"
 	"log"
 	"net/http"
@@ -27,6 +28,20 @@ func init() {
 	if err != nil {
 		log.Fatalf("initsetupDBEngine err:%v", err)
 	}
+
+	err = setupTracer()
+	if err != nil {
+		log.Fatalf("initsetupTracer err:%v", err)
+	}
+}
+
+func setupTracer() error {
+	jaegerTracer, _, err := tracer.NewJaegerTracer("blog-service", "127.0.0.1:6831")
+	if err != nil {
+		return err
+	}
+	global.Tracer = jaegerTracer
+	return nil
 }
 
 //获取配置内容->全局变量初始化
@@ -94,7 +109,7 @@ func setupLogger() error {
 //@description GO编程之旅
 //@termsOfService https://github.com/noChaos1012/tour
 func main() {
-	global.Logger.Infof("【服务启动】%s:tour/%s", "noChaos", "blog-service")
+	global.Logger.Infof(nil, "【服务启动】%s:tour/%s", "noChaos", "blog-service")
 
 	router := routers.NewRouter()
 	s := &http.Server{
