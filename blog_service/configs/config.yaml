@@ -1,5 +1,5 @@
 Server:
-  RunMode: debug  #注意冒号后面有空格
+  RunMode: release  #注意冒号后面有空格
   HttpPort: 8000
   ReadTimeout: 60
   WriteTimeout: 60
