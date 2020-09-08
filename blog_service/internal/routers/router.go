@@ -30,26 +30,25 @@ func NewRouter() *gin.Engine {
 		r.Use(gin.Recovery())
 	} else {
 		gin.SetMode(gin.ReleaseMode)
-		r.Use(middleware.AccessLog())
-		r.Use(middleware.Recovery())
+		r.Use(middleware.AccessLog()) //日志访问记录
+		r.Use(middleware.Recovery())  //异常崩溃日志
 	}
 
-	r.Use(middleware.RateLimiter(methodLimiters))
-	r.Use(middleware.ContextTimeout(global.AppSetting.RequestTimeOut))
-	r.Use(middleware.Translations())
-	r.Use(middleware.Tracing())
+	r.Use(middleware.RateLimiter(methodLimiters))                      //请求队列、接口限流
+	r.Use(middleware.ContextTimeout(global.AppSetting.RequestTimeOut)) //统一超时处理
+	r.Use(middleware.Translations())                                   //语言本地化
+	r.Use(middleware.Tracing())                                        //链路跟踪
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	article := v1.Article{}
-	tag := v1.Tag{}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) //swagger api文档
 
 	r.GET("/auth", api.GetAuth)
 	r.POST("/upload/file", api.UploadFile)
-	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath)) //配置文件存储位置地址
+	r.StaticFS("/static", http.Dir(global.AppSetting.UploadSavePath)) //静态资源访问（配置文件存储位置地址）
 
 	apiv1 := r.Group("/api/v1")
-	apiv1.Use(middleware.JWT())
+	apiv1.Use(middleware.JWT()) //配置JWT
+	article := v1.Article{}
+	tag := v1.Tag{}
 	{
 		apiv1.POST("/tags", tag.Create)
 		apiv1.DELETE("/tags/:id", tag.Delete)

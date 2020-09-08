@@ -30,22 +30,22 @@ var (
 
 func init() {
 	setupFlag()
-
+	//初始化配置信息
 	err := setupSetting()
 	if err != nil {
 		log.Fatalf("init.setupSetting err:%v", err)
 	}
-
+	//初始化日志
 	err = setupLogger()
 	if err != nil {
 		log.Fatalf("init.setupLogger err:%v", err)
 	}
-
+	//初始化数据引擎
 	err = setupDBEngine()
 	if err != nil {
 		log.Fatalf("initsetupDBEngine err:%v", err)
 	}
-
+	//初始化链路跟踪
 	err = setupTracer()
 	if err != nil {
 		log.Fatalf("initsetupTracer err:%v", err)
@@ -134,7 +134,6 @@ func main() {
 
 	if isVersion {
 		//如果接收到构建信息指令则打印
-
 		fmt.Printf("build_time:%s\n", buildTime)
 		fmt.Printf("build_version:%s\n", buildVersion)
 		fmt.Printf("git_commit_id:%s\n", gitCommitID)
