@@ -4,10 +4,8 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"io"
-	"io/ioutil"
-
 	"github.com/tal-tech/go-zero/tools/goctl/api/spec"
+	"io/ioutil"
 )
 
 type Parser struct {
@@ -16,11 +14,14 @@ type Parser struct {
 }
 
 func NewParser(filename string) (*Parser, error) {
-	api, err := ioutil.ReadFile(filename)
+
+	api, err := ioutil.ReadFile(filename) //读取文件内容
 	if err != nil {
 		return nil, err
 	}
-	info, body, service, err := MatchStruct(string(api))
+
+	info, body, service, err := MatchStruct(string(api)) //匹配结构体正则，获取到对应配置内容
+
 	if err != nil {
 		return nil, err
 	}
@@ -35,10 +36,13 @@ func NewParser(filename string) (*Parser, error) {
 
 func (p *Parser) Parse() (api *spec.ApiSpec, err error) {
 	api = new(spec.ApiSpec)
-	types, err := parseStructAst(p.st)
+	types, err := parseStructAst(p.st)	//解析结构体部分语法结构
 	if err != nil {
 		return nil, err
 	}
+	fmt.Println(types)
+
+	/*
 	api.Types = types
 	var lineNumber = 1
 	st := newRootState(p.r, &lineNumber)
@@ -54,4 +58,6 @@ func (p *Parser) Parse() (api *spec.ApiSpec, err error) {
 			return api, p.validate(api)
 		}
 	}
+	 */
+	return nil,nil
 }

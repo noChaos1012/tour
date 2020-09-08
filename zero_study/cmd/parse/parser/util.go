@@ -69,9 +69,11 @@ func unread(r *bufio.Reader) error {
 	return r.UnreadRune()
 }
 
+//匹配结构体正则
 func MatchStruct(api string) (info, structBody, service string, err error) {
 	r := regexp.MustCompile(typeRegex)
-	indexes := r.FindAllStringIndex(api, -1)
+	indexes := r.FindAllStringIndex(api, -1) //获取所有匹配下标
+
 	if len(indexes) == 0 {
 		return "", "", "", emptyStrcut
 	}

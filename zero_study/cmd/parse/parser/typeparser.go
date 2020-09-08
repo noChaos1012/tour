@@ -27,6 +27,7 @@ const (
 	pkgPrefix = "package"
 )
 
+//golang代码解析
 func parseStructAst(golang string) ([]spec.Type, error) {
 	if !strings.HasPrefix(golang, pkgPrefix) {
 		golang = fmt.Sprintf(golangF, golang)
@@ -38,18 +39,27 @@ func parseStructAst(golang string) ([]spec.Type, error) {
 	}
 	commentMap := ast.NewCommentMap(fSet, f, f.Comments)
 	f.Comments = commentMap.Filter(f).Comments()
+
 	scope := f.Scope
 	if scope == nil {
 		return nil, ErrStructNotFound
 	}
 	objects := scope.Objects
+	//fmt.Println(objects)
+
 	structs := make([]*spec.Type, 0)
 	for structName, obj := range objects {
 		st, err := parseObject(structName, obj)
+		fmt.Println(structName,obj)
+		fmt.Println(st)
+
 		if err != nil {
 			return nil, err
 		}
 		structs = append(structs, st)
+		fmt.Println(structName)
+		fmt.Println(obj)
+		fmt.Println(st)
 	}
 	sort.Slice(structs, func(i, j int) bool {
 		return structs[i].Name < structs[j].Name
